@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --inspect src/index.js",
     "start": "node src/index.js",
-    "nodemon": "nodemon src/index.js"
+    "nodemon": "nodemon src/index.js",
+    "publish": "redis-cli --eval ./script.lua"
   },
   "devDependencies": {
     "flow-remove-types": "^1.2.1"

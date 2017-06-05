@@ -1,7 +1,7 @@
 const amqp = require('amqp');
 const log = require('util').log;
 const redis = require('redis')
-const Rx = require('rxjs/Rx');
+const Rx = require('rxjs');
 
 // make private connection
 let _connection = null;
