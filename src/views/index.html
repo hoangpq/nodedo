@@ -1,23 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Odoo</title>
-    <style type="text/css">
-        .content {
-            display: flex;
-            flex-direction: row;
-        }
-    </style>
+    <meta charset="utf-8">
+    <title>Cycle.js Demo</title>
 </head>
 <body>
-    <div class="content">
-        <button class="room" room="room_1">Room 1</button>
-        <button class="room" room="room_2">Room 2</button>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/static/client.js"></script>
+    <header>
+        <h1>Cycle.js Demo</h1>
+    </header>
+    <div id="app"></div>
+    <script src="bundle.js"></script>
 </body>
 </html>

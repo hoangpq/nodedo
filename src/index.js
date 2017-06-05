@@ -6,6 +6,7 @@ const WebSocket = require('ws');
 const utils = require('./utils');
 const Rx = require('rxjs');
 const Consts = require('./consts');
+const path = require('path');
 
 const app = express();
 const router = require('./routes/index');
@@ -13,6 +14,25 @@ const pubSubServer = require('./connections/rabbit');
 
 app.use('/', router);
 app.use('/static', express.static('src/static'));
+
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpack = require('webpack');
+const webpackConfig = require('./app/webpack.config');
+const compiler = webpack(webpackConfig);
+
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: '/', // Same as `output.publicPath` in most cases.
+  hot: true, // Tell the dev-server we're using HMR
+  contentBase: path.resolve(__dirname, 'dist'),
+  headers: {
+    'Access-Control-Allow-Origin': '*'
+  },
+  // custom headers
+  stats: {
+    colors: true
+  },
+}));
+app.use(require('webpack-hot-middleware')(compiler));
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({server});
@@ -25,13 +45,16 @@ function sendObjectToWs(ws, data) {
   ws.send(JSON.stringify(data))
 }
 
-wsMessage.subscribe(function(message) {
+wsJoinRoom.subscribe(function (message) {
+  console.log(message);
+});
+
+wsMessage.subscribe(function (message) {
+  let payload = {message};
   clients.forEach(client => {
     sendObjectToWs(client, {
       action: 'message',
-      payload: {
-        message
-      }
+      payload: payload
     });
   });
 });
@@ -39,7 +62,7 @@ wsMessage.subscribe(function(message) {
 wss.on('connection', function connection(ws) {
 
   // make ws specific
-  Object.assign(ws, { _id: utils.genId() });
+  Object.assign(ws, {_id: utils.genId()});
   clients.push(ws);
   sendObjectToWs(ws, {
     action: 'registered',
