@@ -13,6 +13,17 @@ export default function main(sources) {
     .events('input')
     .map(ev => +ev.target.value);
 
+  const buttonHandler$ = sources.DOM
+    .select('#handler')
+    .events('click')
+    .map(ev => ev.target.value);
+
+  buttonHandler$.subscribe(() => {
+    console.log('Subscriber');
+
+    changeNum1$.next(10);
+  });
+
   const state$ = xs.combine(
     changeNum1$.startWith(0),
     changeNum2$.startWith(0)
@@ -35,6 +46,9 @@ export default function main(sources) {
       <div className="box result">
         <label className="label">Result</label>
         <input type="number" className="input" disabled={true} value={result}/>
+      </div>
+      <div className="box">
+        <button id="handler">Set Value</button>
       </div>
     </div>);
   });
