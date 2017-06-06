@@ -1,4 +1,4 @@
-## An application based on [Cyclejs](https://cycle.js.org/) :beers:
+## :sparkles: An application based on [Cyclejs](https://cycle.js.org/) :sparkles:
  
 ## Installation
 ```javascript
