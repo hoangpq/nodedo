@@ -1,31 +1,14 @@
-.content {
+.main {
   display: flex;
   flex: 1;
-  flex-direction: column;
-  min-height: 100px;
-
-  .box {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    background: #e3e0cf;
-    padding: 10px 0;
-
-    margin-top: 10px;
-    .label {
-      flex: 0.5;
-      margin-left: 10px;
-      color: #9fa8a3;
-    }
-
-    .input {
-      // flex: 1;
-      margin-right: 10px;
-    }
-
-    #handler {
-      margin-left: 10px;
-    }
-
+  flex-direction: row;
+  min-height: 500px;
+  .contact {
+    background: green;
+    flex: 0.5;
+  }
+  .content {
+    background: #99ffff;
+    flex: 0.5;
   }
 }
