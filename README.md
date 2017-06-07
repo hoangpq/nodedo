@@ -4,15 +4,14 @@
 ```javascript
 yarn --no-lockfile 
 ``` 
-:collision:
 
 ## Usage
 ```javascript
 yarn start 
 ``` 
-:zap: :whale: :open_hands:
 
 ## Dependencies
 [Cyclejs](https://cycle.js.org/), [Webpack](https://webpack.js.org/), [Express](https://expressjs.com/), [Sass](http://sass-lang.com/)
 
-:fire: :runner: :beer:
+:fire: :runner: :beer: :zap: :whale: :open_hands: :collision:
+
