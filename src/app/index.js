@@ -1,6 +1,9 @@
 import {run} from '@cycle/run';
+import isolate from '@cycle/isolate';
 import {makeDOMDriver} from '@cycle/dom';
-import App from './components/main';
+import Calculator from './components/main';
+import xs from 'xstream';
+import {html} from 'snabbdom-jsx';
 
 // require main style
 require('./styles/main.scss');
@@ -14,4 +17,19 @@ const drivers = {
   DOM: makeDOMDriver('#app')
 };
 
-run(App, drivers);
+function main(sources) {
+
+  const vdom$ = xs.combine(
+    Calculator(sources).DOM
+  )
+    .map(([Calculator]) => <div>
+        {Calculator}
+      </div>
+    );
+
+  return {
+    DOM: vdom$
+  };
+}
+
+run(main, drivers);

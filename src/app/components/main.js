@@ -1,7 +1,7 @@
 import xs from 'xstream';
 import {html} from 'snabbdom-jsx';
 
-export default function main(sources) {
+export default function Calculator(sources) {
 
   const changeNum1$ = sources.DOM
     .select('#input1')
