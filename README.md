@@ -10,7 +10,7 @@ yarn --no-lockfile
 ```javascript
 yarn start 
 ``` 
-:zap:
+:zap: :whale: :open_hands:
 
 ## Dependencies
 [Cyclejs](https://cycle.js.org/), [Webpack](https://webpack.js.org/), [Express](https://expressjs.com/), [Sass](http://sass-lang.com/)
