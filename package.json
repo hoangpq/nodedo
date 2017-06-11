@@ -9,7 +9,8 @@
     "start": "node src/index.js",
     "nodemon": "nodemon --harmony src/index.js",
     "publish": "redis-cli --eval ./script.lua",
-    "clean": "rm -rf ./node_modules"
+    "clean": "rm -rf ./node_modules",
+    "knex": "nodemon src/models/index.js"
   },
   "devDependencies": {
     "css-loader": "^0.28.4",
@@ -31,7 +32,9 @@
     "express": "^4.15.3",
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.28.0",
+    "knex": "^0.13.0",
     "nodemon": "^1.11.0",
+    "pg": "^6.2.3",
     "redis": "^2.7.1",
     "rxjs": "^5.4.0",
     "snabbdom-jsx": "^0.3.1",
