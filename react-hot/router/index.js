@@ -1,8 +1,6 @@
 const log = require('util').log;
 const express = require('express');
 const router = express.Router();
-const app = express();
-const Rx = require('rxjs');
 const config = require('./config');
 
 // external configs
@@ -15,18 +13,14 @@ Object.assign(config.pool, {
 });
 
 const knex = require('knex')(config);
-
-app.use('/', router);
 router.get('/', (req, res) => {
-  knex.with('product_list', knex.raw('select * from product_template'))
-    .select('*')
-    .from('product_list')
+
+  knex.select('product.id as product_id', 'product.name as pname', 'category.name as cname')
+    .from('product_template as product')
+    .innerJoin('product_category as category', 'product.categ_id', 'category.id')
     .then(data => {
       res.json(data);
     });
 });
 
-const port = 4334 || process.env.PORT;
-app.listen(port, () => {
-  log(`Server is running on port ${port}`);
-});
+module.exports = router;

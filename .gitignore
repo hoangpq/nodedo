@@ -2,3 +2,5 @@
 yarn.lock
 *.iml
 .idea/
+/react-hot/node_modules/
+/react-hot/yarn.lock
