@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Boilerplate for ReactJS project with hot code reloading",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "lint": "eslint src"
   },
   "repository": {
@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "graphql": "^0.10.1",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-router-dom": "^4.1.1",

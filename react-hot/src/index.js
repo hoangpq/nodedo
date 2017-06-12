@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App, {ProductDetail} from './App';
 import {HashRouter, Switch, Route, Link} from 'react-router-dom';
+
+if (module.hot) {
+  module.hot.accept();
+}
 
 class Home extends Component {
   render() {
@@ -14,8 +18,9 @@ class Home extends Component {
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path="/" component={Home} />
-      <Route path="/shop" component={App} />
+      <Route exact path="/" component={Home}/>
+      <Route path="/shop" component={App}/>
+      <Route path="/detail/:id" component={ProductDetail}/>
     </Switch>
   </main>
 );
