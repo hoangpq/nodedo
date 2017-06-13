@@ -31,7 +31,15 @@ class Product extends Component {
 
   constructor(props) {
     super(props);
-    this.imageUrl = `http://localhost:8069/web/image?model=product.template&id=${props.product_id}&field=image`;
+    this.state = {
+      avatar: '',
+    }
+  }
+
+  componentWillMount() {
+    axios.get(`/api/images/${this.props.product_id}`).then(res => {
+      this.setState({ avatar: res.data });
+    })
   }
 
   render() {
@@ -41,7 +49,7 @@ class Product extends Component {
       <div className="item">
         <div className="avatar">
           <Link to={`/detail/${this.props.product_id}`}>
-            <img src={this.imageUrl} alt={this.props.pname}/>
+            <img src={this.state.avatar} alt={this.props.pname}/>
           </Link>
         </div>
         <div className="item-info">

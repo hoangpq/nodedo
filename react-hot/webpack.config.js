@@ -18,13 +18,16 @@ module.exports = {
   module: {
     rules: [{
       test: /\.js$/,
-      exclude: /node_modules/,
+      exclude: [
+        /node_modules/,
+        path.join(__dirname, 'router'),
+      ],
       use: [{
         loader: 'react-hot-loader'
       }, {
         loader: 'babel-loader'
       }],
-      include: path.join(__dirname, 'src')
+      include: path.join(__dirname, 'src'),
     }, {
       test: /\.scss$/,
       use: [{
