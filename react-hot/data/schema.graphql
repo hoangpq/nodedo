@@ -1,0 +1,16 @@
+type Tea {
+    name: String
+    steepingTime: Int
+}
+
+type Store {
+    teas: [Tea]
+}
+
+type Query {
+    store: Store
+}
+
+schema {
+    query: Query
+}
