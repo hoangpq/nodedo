@@ -9,7 +9,6 @@ export class ProductDetail extends Component {
   constructor(props) {
     super(props);
     this.params = props.match.params;
-    this.imageUrl = `http://localhost:8069/web/image?model=product.template&id=${this.params.id}&field=image`;
     this.state = {};
   }
 

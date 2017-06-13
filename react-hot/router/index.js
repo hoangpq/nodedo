@@ -3,13 +3,13 @@ const express = require('express');
 const fs = require('fs');
 const router = express.Router();
 const config = require('./config');
-const storePath = '/Users/home/Library/Application Support/Odoo/filestore/odoo10';
+import {storePath} from '../const';
 
 // external configs
 Object.assign(config.pool, {
   afterCreate: function (conn, done) {
     // aquires a new connection
-    log('Aquires a new connection!');
+    log('Aquire a new connection!');
     done(null, conn);
   }
 });
