@@ -4,7 +4,8 @@
   "description": "Boilerplate for ReactJS project with hot code reloading",
   "scripts": {
     "start": "node server.js",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "update-schema": "babel-node ./data/updateSchema.js"
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-relay-plugin": "^0.11.0",
+    "babel-relay-plugin-loader": "^0.11.0",
     "body-parser": "^1.17.2",
     "express-graphql": "^0.6.6",
     "graphql": "^0.10.1",
@@ -57,6 +59,7 @@
     "react-relay": "^1.0.0",
     "react-router-dom": "^4.1.1",
     "relay": "^0.8.0-1",
+    "sync-request": "^4.1.0",
     "webpack": "^2.6.1"
   }
 }

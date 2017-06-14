@@ -1,62 +1,22 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import Relay from 'react-relay';
-import App, {ProductDetail} from './App';
-import TeaStore from './TeaStore';
-import {HashRouter, Switch, Route, Link} from 'react-router-dom';
+import Relay, {DefaultNetworkLayer} from 'react-relay/classic';
+import Tea, {TeaStoreRoute} from './TeaStore';
+
+require('../styles/main.scss');
 
 if (module.hot) {
   module.hot.accept();
 }
 
-class Home extends Component {
-  render() {
-    return (
-      <div className="welcome">Welcome to Odoo shop</div>
-    );
-  }
-}
+Relay.injectNetworkLayer(new DefaultNetworkLayer('http://localhost:3000/api/graphql'))
 
-const Main = () => (
-  <main>
-    <Switch>
-      <Route exact path="/" component={Home}/>
-      <Route path="/store" component={TeaStore}/>
-      <Route path="/shop" component={App}/>
-      <Route path="/detail/:id" component={ProductDetail}/>
-    </Switch>
-  </main>
-);
+const rootComponent =
+  <Relay.Renderer
+    environment={Relay.Store}
+    Container={Tea}
+    queryConfig={new TeaStoreRoute()}/>;
 
-const Header = () => (
-  <header className="header">
-    <div className="header-item">
-      <Link to='/'>Home</Link>
-    </div>
-    <div className="header-item">
-      <Link to='/store'>Store</Link>
-    </div>
-    <div className="header-item">
-      <Link to='/shop'>Shop</Link>
-    </div>
-  </header>
-);
+const mountNode = document.getElementById('root');
 
-const RouterApp = () => (
-  <div>
-    <Header/>
-    <Main/>
-  </div>
-);
-
-/*Relay.injectNetworkLayer(
-  new Relay.DefaultNetworkLayer('http://localhost:3000/api/graphql', {
-    credentials: 'cors',
-  })
-);*/
-
-ReactDOM.render((
-  <HashRouter>
-    <RouterApp/>
-  </HashRouter>
-), document.getElementById('root'));
+ReactDOM.render(rootComponent, mountNode);

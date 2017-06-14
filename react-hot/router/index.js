@@ -12,7 +12,7 @@ const {graphqlExpress, graphiqlExpress} = require('graphql-server-express');
 const {makeExecutableSchema} = require('graphql-tools');
 
 const Schema = String(
-  fs.readFileSync(path.join(__dirname, '../data/schema.graphql'))
+  fs.readFileSync(path.join(__dirname, '../data/schema.graphqls'))
 );
 const knex = require('knex')(config);
 

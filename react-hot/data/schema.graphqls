@@ -1,3 +1,5 @@
+# query schema for graphql
+
 type Tea {
     name: String
     steepingTime: Int
