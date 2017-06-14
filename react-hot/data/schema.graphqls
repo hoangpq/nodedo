@@ -3,6 +3,7 @@
 type Tea {
     name: String
     steepingTime: Int
+    relate: [Tea]
 }
 
 type Store {

@@ -1,7 +1,10 @@
-query {
+query teaList($name:String!,$withSteepingTime:Boolean!) {
     store {
-        teas {
+        __typename
+        tea(name:$name) {
+            __typename
             name
+            steepingTime @include(if:$withSteepingTime)
         }
     }
 }

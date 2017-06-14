@@ -9,14 +9,13 @@ if (module.hot) {
   module.hot.accept();
 }
 
-Relay.injectNetworkLayer(new DefaultNetworkLayer('http://localhost:3000/api/graphql'))
+Relay.injectNetworkLayer(
+  new DefaultNetworkLayer('http://localhost:3000/api/graphql')
+);
 
-const rootComponent =
-  <Relay.Renderer
-    environment={Relay.Store}
-    Container={Tea}
-    queryConfig={new TeaStoreRoute()}/>;
-
+const rootComponent = <Relay.RootContainer
+  Component={Tea}
+  route={new TeaStoreRoute()}
+/>;
 const mountNode = document.getElementById('root');
-
 ReactDOM.render(rootComponent, mountNode);
