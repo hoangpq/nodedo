@@ -67,20 +67,24 @@ router.get('/images/:id', (req, res) => {
     });
 });
 
+
+const TEAS = [
+  {name: 'Earl Grey Blue Star', steepingTime: 5},
+  {name: 'Milk Oolong', steepingTime: 3},
+  {name: 'Gunpowder Golden Temple', steepingTime: 3},
+  {name: 'Assam Hatimara', steepingTime: 5},
+  {name: 'Bancha', steepingTime: 2},
+  {name: 'Ceylon New Vithanakande', steepingTime: 5},
+  {name: 'Golden Tip Yunnan', steepingTime: 5},
+  {name: 'Jasmine Phoenix Pearls', steepingTime: 3},
+  {name: 'Kenya Milima', steepingTime: 5},
+  {name: 'Pu Erh First Grade', steepingTime: 4},
+  {name: 'Sencha Makoto', steepingTime: 2},
+];
+
 const data = {
-  teas: [
-    {name: 'Earl Grey Blue Star', steepingTime: 5},
-    {name: 'Milk Oolong', steepingTime: 3},
-    {name: 'Gunpowder Golden Temple', steepingTime: 3},
-    {name: 'Assam Hatimara', steepingTime: 5},
-    {name: 'Bancha', steepingTime: 2},
-    {name: 'Ceylon New Vithanakande', steepingTime: 5},
-    {name: 'Golden Tip Yunnan', steepingTime: 5},
-    {name: 'Jasmine Phoenix Pearls', steepingTime: 3},
-    {name: 'Kenya Milima', steepingTime: 5},
-    {name: 'Pu Erh First Grade', steepingTime: 4},
-    {name: 'Sencha Makoto', steepingTime: 2},
-  ]
+  teas: () => TEAS,
+  tea: ({name}) => TEAS.find(t => t.name === name),
 };
 
 const resolvers = {

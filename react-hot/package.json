@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Boilerplate for ReactJS project with hot code reloading",
   "scripts": {
-    "start": "node server.js",
+    "start": "babel-node ./data/updateSchema.js && node server.js",
     "lint": "eslint src",
     "update-schema": "babel-node ./data/updateSchema.js"
   },

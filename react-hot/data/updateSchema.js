@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { graphql, buildSchema }  from 'graphql';
-import { introspectionQuery, printSchema } from 'graphql/utilities';
+import { introspectionQuery } from 'graphql/utilities';
 const Schema = buildSchema(String(
   fs.readFileSync(path.join(__dirname, './schema.graphqls'))
 ));
