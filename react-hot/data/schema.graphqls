@@ -1,5 +1,4 @@
 # query schema for graphql
-
 type Tea {
     name: String
     steepingTime: Int
@@ -11,10 +10,20 @@ type Store {
     tea(name: String!): Tea
 }
 
+input TeaInput {
+    name: String
+    steepingTime: Int
+}
+
+type Mutation {
+    createTea(input: TeaInput): Tea
+}
+
 type Query {
     store: Store
 }
 
 schema {
     query: Query
+    mutation: Mutation
 }

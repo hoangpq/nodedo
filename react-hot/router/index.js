@@ -8,13 +8,14 @@ const config = require('./config');
 const storePath = require('../const');
 
 const {graphql, buildSchema} = require('graphql');
+const graphqlHTTP = require('express-graphql');
 const {graphqlExpress, graphiqlExpress} = require('graphql-server-express');
 const {makeExecutableSchema} = require('graphql-tools');
 
+const knex = require('knex')(config);
 const Schema = String(
   fs.readFileSync(path.join(__dirname, '../data/schema.graphqls'))
 );
-const knex = require('knex')(config);
 
 // external configs
 Object.assign(config.pool, {
@@ -68,19 +69,7 @@ router.get('/images/:id', (req, res) => {
 });
 
 
-let TEAS = [
-  {id: 1, name: 'Earl Grey Blue Star', steepingTime: 5, relate: [3, 4, 5]},
-  {id: 2, name: 'Milk Oolong', steepingTime: 3, relate: []},
-  {id: 3, name: 'Gunpowder Golden Temple', steepingTime: 3, relate: []},
-  {id: 4, name: 'Assam Hatimara', steepingTime: 5, relate: []},
-  {id: 5, name: 'Bancha', steepingTime: 2, relate: []},
-  {id: 6, name: 'Ceylon New Vithanakande', steepingTime: 5, relate: []},
-  {id: 7, name: 'Golden Tip Yunnan', steepingTime: 5, relate: []},
-  {id: 8, name: 'Jasmine Phoenix Pearls', steepingTime: 3, relate: []},
-  {id: 9, name: 'Kenya Milima', steepingTime: 5, relate: []},
-  {id: 10, name: 'Pu Erh First Grade', steepingTime: 4, relate: []},
-  {id: 11, name: 'Sencha Makoto', steepingTime: 2, relate: []},
-];
+let TEAS = require('../data/store');
 
 TEAS = TEAS.map(tea => {
   Object.assign(tea, {
@@ -102,7 +91,7 @@ TEAS = TEAS.map(tea => {
 const TIME = 3000;
 const data = {
   teas: () => new Promise(resolve => {
-    setTimeout(function() {
+    setTimeout(function () {
       resolve(TEAS);
     }, Math.round(Math.random() * TIME));
   }),
@@ -112,14 +101,19 @@ const data = {
 const resolvers = {
   Query: {
     store: () => data,
-  }
+  },
+  Mutation: {
+    createTea: () => ({
+      name: "Oolong",
+      steepingTime: 19,
+    }),
+  },
 };
 
 const schema = makeExecutableSchema({
-  typeDefs: [Schema],
+  typeDefs: Schema,
   resolvers: resolvers
 });
-
 
 router.post('/graphql', bodyParser.json(), graphqlExpress({schema}));
 router.get('/graphiql', graphiqlExpress({endpointURL: '/api/graphql'}));

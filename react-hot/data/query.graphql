@@ -1,17 +1,27 @@
-query teaList($name:String!,$withSteepingTime:Boolean!) {
-    store {
-        __typename
-        tea(name:$name) {
-            __typename
-            name
-            steepingTime @include(if:$withSteepingTime)
-            relate(name:"Gunpowder Golden Temple") {
-                name
-                steepingTime
-            }
-            new_rl: relate {
-                name
-            }
-        }
+#query teaList($name:String!,$withSteepingTime:Boolean!) {
+#    store {
+#        __typename
+#        tea(name:$name) {
+#            __typename
+#            name
+#            steepingTime @include(if:$withSteepingTime)
+#            relate(name:"Gunpowder Golden Temple") {
+#                name
+#                steepingTime
+#            }
+#            new_rl: relate {
+#                name
+#            }
+#        }
+#    }
+#}
+
+mutation {
+    createTea(input: {
+        name: "Oolong",
+        steepingTime: 10,
+    }) {
+        name
+        steepingTime
     }
 }
