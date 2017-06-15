@@ -83,13 +83,25 @@ let TEAS = [
 ];
 
 TEAS = TEAS.map(tea => {
-  const relate = tea.relate.map(id => TEAS.find(t => t.id === id));
-  Object.assign(tea, { relate });
+  Object.assign(tea, {
+    _relate: tea.relate.map(id => TEAS.find(t => t.id === id))
+  });
+  const relate = function ({name}) {
+    return tea._relate.filter(t => {
+      console.log(t.name);
+      return t.name === name
+    });
+  };
+  Object.assign(tea, {relate});
   return tea;
 });
 
 const data = {
-  teas: () => TEAS,
+  teas: () => new Promise(resolve => {
+    setTimeout(function() {
+      resolve(TEAS);
+    }, 3000);
+  }),
   tea: ({name}) => TEAS.find(t => t.name === name),
 };
 
