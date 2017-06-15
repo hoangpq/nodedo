@@ -68,7 +68,7 @@ router.get('/images/:id', (req, res) => {
 });
 
 
-const TEAS = [
+let TEAS = [
   {id: 1, name: 'Earl Grey Blue Star', steepingTime: 5, relate: [3, 4, 5]},
   {id: 2, name: 'Milk Oolong', steepingTime: 3, relate: []},
   {id: 3, name: 'Gunpowder Golden Temple', steepingTime: 3, relate: []},
@@ -82,12 +82,14 @@ const TEAS = [
   {id: 11, name: 'Sencha Makoto', steepingTime: 2, relate: []},
 ];
 
+TEAS = TEAS.map(tea => {
+  const relate = tea.relate.map(id => TEAS.find(t => t.id === id));
+  Object.assign(tea, { relate });
+  return tea;
+});
+
 const data = {
-  teas: () => TEAS.map(tea => {
-    const relate = tea.relate.map(id => TEAS.find(t => t.id === id));
-    Object.assign(tea, { relate });
-    return tea;
-  }),
+  teas: () => TEAS,
   tea: ({name}) => TEAS.find(t => t.name === name),
 };
 

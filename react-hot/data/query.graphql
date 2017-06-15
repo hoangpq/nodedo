@@ -5,6 +5,9 @@ query teaList($name:String!,$withSteepingTime:Boolean!) {
             __typename
             name
             steepingTime @include(if:$withSteepingTime)
+            relate {
+                name
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import {HashRouter, Switch, Route, Link} from 'react-router-dom';
 import Relay, {DefaultNetworkLayer} from 'react-relay/classic';
 import Tea, {TeaStoreRoute} from './TeaStore';
 
@@ -17,5 +18,32 @@ const rootComponent = <Relay.RootContainer
   Component={Tea}
   route={new TeaStoreRoute()}
 />;
+
+const Header = () => (
+  <header className="header">
+    <div className="header-item">
+      <Link to='/'>Home</Link>
+    </div>
+  </header>
+);
+
+const Main = () => (
+  <main>
+    <Switch>
+      <Route exact path="/" component={rootComponent}/>
+    </Switch>
+  </main>
+);
+
+const RouterApp = () => (
+  <div>
+    <Header/>
+    <Main/>
+  </div>
+);
+
 const mountNode = document.getElementById('root');
-ReactDOM.render(rootComponent, mountNode);
+ReactDOM.render(
+  rootComponent,
+  mountNode
+);

@@ -8,6 +8,18 @@ class Tea extends Component {
     this.teas = props.store && props.store.teas ? props.store.teas : [];
   }
 
+  componentWillMount() {
+    const fragment = Relay.QL`
+      query {
+          store {
+              teas {
+                  name
+              }
+          }
+      }
+    `;
+  }
+
   renderStore(tea, index) {
 
     const sleepTimeStyle = {
