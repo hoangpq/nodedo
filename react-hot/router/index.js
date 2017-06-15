@@ -87,6 +87,9 @@ TEAS = TEAS.map(tea => {
     _relate: tea.relate.map(id => TEAS.find(t => t.id === id))
   });
   const relate = function ({name}) {
+    if (!name) {
+      return tea._relate;
+    }
     return tea._relate.filter(t => {
       console.log(t.name);
       return t.name === name
@@ -96,11 +99,12 @@ TEAS = TEAS.map(tea => {
   return tea;
 });
 
+const TIME = 3000;
 const data = {
   teas: () => new Promise(resolve => {
     setTimeout(function() {
       resolve(TEAS);
-    }, 3000);
+    }, Math.round(Math.random() * TIME));
   }),
   tea: ({name}) => TEAS.find(t => t.name === name),
 };

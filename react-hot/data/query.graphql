@@ -9,6 +9,9 @@ query teaList($name:String!,$withSteepingTime:Boolean!) {
                 name
                 steepingTime
             }
+            new_rl: relate {
+                name
+            }
         }
     }
 }
