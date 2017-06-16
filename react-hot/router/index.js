@@ -1,33 +1,23 @@
-const log = require('util').log;
+// @flow
+
 const express = require('express');
-const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const {graphql, buildSchema} = require('graphql');
+const graphqlHTTP = require('express-graphql');
+const {graphiqlExpress} = require('graphql-server-express');
 const router = express.Router();
 const config = require('./config');
 const storePath = require('../const');
-
-const {graphql, buildSchema} = require('graphql');
-const graphqlHTTP = require('express-graphql');
-const {graphqlExpress, graphiqlExpress} = require('graphql-server-express');
-const {makeExecutableSchema} = require('graphql-tools');
-
-const knex = require('knex')(config);
+// database utils
+const knex: Object = require('knex')(config);
 const Schema = String(
   fs.readFileSync(path.join(__dirname, '../data/schema.graphqls'))
 );
 
-// external configs
-Object.assign(config.pool, {
-  afterCreate: function (conn, done) {
-    // aquires a new connection
-    log('Aquire a new connection!');
-    done(null, conn);
-  }
-});
-
 function getImage(res_id, res_model, res_field = 'image') {
-  return knex.select('store_fname')
+  return knex
+    .select('store_fname as fname')
     .from('ir_attachment')
     .where({
       res_id, res_model, res_field,
@@ -52,8 +42,8 @@ router.get('/images/:id', (req, res) => {
   const product_id = req.params['id'];
   getImage(product_id, 'product.template')
     .then((attachment) => {
-      if (attachment && attachment.store_fname) {
-        const path = `${storePath}/${attachment.store_fname}`;
+      if (attachment && attachment.fname) {
+        const path = `${storePath}/${attachment.fname}`;
         fs.readFile(path, (err, data) => {
           if (data) {
             data = `data:image/png;base64,${data.toString('base64')}`;
@@ -68,8 +58,7 @@ router.get('/images/:id', (req, res) => {
     });
 });
 
-
-let TEAS = require('../data/store');
+let TEAS: Array<Object> = require('../data/store');
 
 TEAS = TEAS.map(tea => {
   Object.assign(tea, {
@@ -80,7 +69,6 @@ TEAS = TEAS.map(tea => {
       return tea._relate;
     }
     return tea._relate.filter(t => {
-      console.log(t.name);
       return t.name === name
     });
   };
@@ -98,24 +86,22 @@ const data = {
   tea: ({name}) => TEAS.find(t => t.name === name),
 };
 
-const resolvers = {
-  Query: {
-    store: () => data,
-  },
-  Mutation: {
-    createTea: () => ({
-      name: "Oolong",
-      steepingTime: 19,
-    }),
+const root = {
+  // queries
+  store: () => data,
+  // mutations
+  createTea: ({input}) => {
+    return input;
   },
 };
 
-const schema = makeExecutableSchema({
-  typeDefs: Schema,
-  resolvers: resolvers
-});
-
-router.post('/graphql', bodyParser.json(), graphqlExpress({schema}));
+const schema = buildSchema(Schema);
+// GraphQL server
+router.post('/graphql', graphqlHTTP({
+  schema: schema,
+  rootValue: root,
+}));
+// GraphQL UI
 router.get('/graphiql', graphiqlExpress({endpointURL: '/api/graphql'}));
 
 module.exports = router;
