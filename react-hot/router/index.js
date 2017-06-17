@@ -10,7 +10,7 @@ const router = express.Router();
 const config = require('./config');
 const storePath = require('../const');
 // database utils
-const knex: Object = require('knex')(config);
+const knex = require('knex')(config);
 const Schema = String(
   fs.readFileSync(path.join(__dirname, '../data/schema.graphqls'))
 );
@@ -58,7 +58,7 @@ router.get('/images/:id', (req, res) => {
     });
 });
 
-let TEAS: Array<Object> = require('../data/store');
+let TEAS = require('../data/store');
 
 TEAS = TEAS.map(tea => {
   Object.assign(tea, {
@@ -69,7 +69,7 @@ TEAS = TEAS.map(tea => {
       return tea._relate;
     }
     return tea._relate.filter(t => {
-      return t.name === name
+      return t.name === name;
     });
   };
   Object.assign(tea, {relate});

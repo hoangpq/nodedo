@@ -11,8 +11,9 @@ if (module.hot) {
   module.hot.accept();
 }
 
+const {origin} = window.location;
 Relay.injectNetworkLayer(
-  new DefaultNetworkLayer('http://localhost:3000/api/graphql')
+  new DefaultNetworkLayer(`${origin}/api/graphql`)
 );
 
 const rootComponent = <Relay.RootContainer
@@ -46,9 +47,10 @@ const RouterApp = () => (
 import gql from 'graphql-tag'
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { ApolloProvider, graphql } from 'react-apollo'
+
 const client = new ApolloClient({
   networkInterface: createNetworkInterface({
-    uri: 'http://localhost:3000/api/graphql',
+    uri: `${origin}/api/graphql`,
   }),
 });
 
