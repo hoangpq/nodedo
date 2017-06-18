@@ -57,9 +57,9 @@ const client = new ApolloClient({
 class Feed extends Component {
 
   renderItem(item, index) {
-    return (<li key={index}>
+    return (<div key={index} className="item">
       Name: {item.name}
-    </li>);
+    </div>);
   }
 
   componentDidMount() {
@@ -95,7 +95,7 @@ class Feed extends Component {
       return <span>Loading...</span>;
     }
     const teas = this.props.data.store.teas;
-    return (<div>
+    return (<div className="content-holder">
       {
         teas.map(this.renderItem)
       }
