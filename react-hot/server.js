@@ -4,7 +4,7 @@ const express = require('express');
 const config = require('./webpack.config');
 const app = express();
 const compiler = webpack(config);
-const router = require('./router');
+const router = require('./routers');
 
 app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath

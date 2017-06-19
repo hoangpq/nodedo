@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter, Switch, Route, Link} from 'react-router-dom';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import { ApolloProvider} from 'react-apollo';
 import Relay, {DefaultNetworkLayer} from 'react-relay/classic';
 import Tea, {TeaStoreRoute} from './TeaStore';
+import Feed from './Feed';
 
+const {origin} = window.location;
 require('../styles/main.scss');
 
 if (module.hot) {
@@ -11,42 +14,9 @@ if (module.hot) {
   module.hot.accept();
 }
 
-const {origin} = window.location;
 Relay.injectNetworkLayer(
   new DefaultNetworkLayer(`${origin}/api/graphql`)
 );
-
-const rootComponent = <Relay.RootContainer
-  Component={Tea}
-  route={new TeaStoreRoute()}
-/>;
-
-const Header = () => (
-  <header className="header">
-    <div className="header-item">
-      <Link to='/'>Home</Link>
-    </div>
-  </header>
-);
-
-const Main = () => (
-  <main>
-    <Switch>
-      <Route exact path="/" component={rootComponent}/>
-    </Switch>
-  </main>
-);
-
-const RouterApp = () => (
-  <div>
-    <Header/>
-    <Main/>
-  </div>
-);
-
-import gql from 'graphql-tag'
-import ApolloClient, { createNetworkInterface } from 'apollo-client'
-import { ApolloProvider, graphql } from 'react-apollo'
 
 const client = new ApolloClient({
   networkInterface: createNetworkInterface({
@@ -54,72 +24,15 @@ const client = new ApolloClient({
   }),
 });
 
-class Feed extends Component {
-
-  renderItem(item, index) {
-    return (<div key={index} className="item">
-      Name: {item.name}
-    </div>);
-  }
-
-  componentDidMount() {
-    const query = String.raw`
-      query {
-        store {
-          teas {
-            name
-            steepingTime
-          }
-        }
-      }
-    `;
-    fetch('/api/graphql', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query
-      }),
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log(`data requested`);
-        console.log(res)
-      });
-  }
-
-  render() {
-    const { loading } = this.props.data;
-    if (loading) {
-      return <span>Loading...</span>;
-    }
-    const teas = this.props.data.store.teas;
-    return (<div className="content-holder">
-      {
-        teas.map(this.renderItem)
-      }
-    </div>);
-  }
-}
-
-const FeedQuery = gql`
-    query {
-        store {
-            teas {
-                name
-            }
-        }
-    }
-`;
-
-const FeedWithData = graphql(FeedQuery)(Feed);
+const rootComponent = <Relay.RootContainer
+  Component={Tea}
+  route={new TeaStoreRoute()}
+/>;
 
 const mountNode = document.getElementById('root');
 ReactDOM.render(
-  // rootComponent,
   <ApolloProvider client={client}>
-    <FeedWithData />
+    <Feed/>
   </ApolloProvider>,
   mountNode
 );
