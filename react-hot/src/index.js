@@ -1,10 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import ApolloClient, { createNetworkInterface } from 'apollo-client';
-import { ApolloProvider} from 'react-apollo';
+import ApolloClient, {createNetworkInterface} from 'apollo-client';
+import {ApolloProvider} from 'react-apollo';
 import Relay, {DefaultNetworkLayer} from 'react-relay/classic';
-import Tea, {TeaStoreRoute} from './TeaStore';
+import {createStore} from 'redux';
 import Feed from './Feed';
+import reducers from './reducers';
+const store = createStore(reducers);
 
 const {origin} = window.location;
 require('../styles/main.scss');
@@ -24,15 +26,9 @@ const client = new ApolloClient({
   }),
 });
 
-const rootComponent = <Relay.RootContainer
-  Component={Tea}
-  route={new TeaStoreRoute()}
-/>;
-
-const mountNode = document.getElementById('root');
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Feed/>
+    <Feed store={store}/>
   </ApolloProvider>,
-  mountNode
+  document.getElementById('root'),
 );
