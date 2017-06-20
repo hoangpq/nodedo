@@ -1,9 +1,6 @@
-import gql from 'graphql-tag'
-import {graphql} from 'react-apollo'
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import * as Utils from './utils/Utils';
-import * as Actions from './consts';
+import {fetchData} from './actions';
 
 class Feed extends Component {
 
@@ -16,7 +13,7 @@ class Feed extends Component {
 
   _renderContent() {
     const teas = this.props.teas;
-    return teas.map(this._renderItem);
+    return teas.length ? teas.map(this._renderItem) : <span>Loading...</span>
   }
 
   componentDidMount() {
@@ -30,49 +27,21 @@ class Feed extends Component {
   }
 }
 
-const FeedQuery = gql`
-    query {
-        store {
-            teas {
-                name
-                steepingTime
-            }
-        }
-    }
-`;
-
 const mapStateToProps = state => {
   return {
-    teas: state.teas.teas
+    teas: state.teas.teas,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchData: () => {
-      Utils.query(String.raw`
-        query {
-          store {
-            teas {
-              name
-              steepingTime
-              relate {
-                name
-                steepingTime
-              }
-            }
-          }
-        }
-      `)
-        .then(res => dispatch({
-          type: Actions.DATA_LOADED,
-          payload: res.data
-        }));
-    }
+      fetchData(dispatch);
+    },
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(graphql(FeedQuery)(Feed));
+)(Feed);
